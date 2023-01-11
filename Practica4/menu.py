@@ -25,66 +25,26 @@ def menu_s():
         print('------------------------------------------')
         ipe = input("Ingrese la ip del dispositivo al cual se va a conectar: ")
 
-        if ipe == "30.30.30.1":
-            tel = telnetlib.Telnet(ipe)  # Se habilita el servicio telnet
-            tel.read_until(b"User: ")
-            tel.write(usuario.encode('ascii')+b"\n")
-            tel.read_until(b"Password: ")
-            tel.write(psw.encode('ascii') + b"\n")
+        tel = telnetlib.Telnet(ipe)  # Se habilita el servicio telnet
+        tel.read_until(b"User: ")
+        tel.write(usuario.encode('ascii')+b"\n")
+        tel.read_until(b"Password: ")
+        tel.write(psw.encode('ascii') + b"\n")
 
-            name = input("Escriba el nombre que le pondra al dispositivo: ")
+        name = input("Escriba el nombre que le pondra al dispositivo: ")
 
-            tel.write(b"enable\n")
-            tel.write(b"config\n")
-            tel.write(b"hostname "+name.encode('ascii')+ b"\n")
-            tel.write(b"copy running-config startup-config\n")
-            tel.write(b"exit\n")
-            tel.write(b"exit\n")
-            print(tel.read_all().decode('ascii'))
+        tel.write(b"enable\n")
+        tel.write(b"config\n")
+        tel.write(b"hostname "+name.encode('ascii')+ b"\n")
+        tel.write(b"service ftp\n")
+        tel.write(b"copy running-config startup-config\n")
+        tel.write(b"exit\n")
+        tel.write(b"exit\n")
+        print(tel.read_all().decode('ascii'))
 
-            print('Archivo Startup creado :D')
-            input('Pulse una tecla para continuar... ')
-            menu_s()
-        elif ipe == "10.10.10.1":
-            ipe1 = "30.30.30.1"
-            tel = telnetlib.Telnet(ipe1)  # Se habilita el servicio telnet
-            tel.read_until(b"User: ")
-            tel.write(usuario.encode('ascii') + b"\n")
-            tel.read_until(b"Password: ")
-            tel.write(psw.encode('ascii') + b"\n")
-
-            name = input("Escriba el nombre que le pondra al dispositivo: ")
-
-            tel.write(b"enable\n")
-            tel.write(b"config\n")
-
-            #Se conecta desde telnet otro telnet para el router no directo
-            tel.write(b"telnet " + ipe.encode('ascii') + b"\n")
-            tel.read_until(b"User: ")
-            tel.write(usuario.encode('ascii') + b"\n")
-            tel.read_until(b"Password: ")
-            tel.write(psw.encode('ascii') + b"\n")
-            tel.write(b"enable\n")
-            tel.write(b"config\n")
-            tel.write(b"hostname " + name.encode('ascii') + b"\n")
-            tel.write(b"copy running-config startup-config\n")
-            tel.write(b"exit\n")
-            tel.write(b"exit\n")
-            tel.write(b"exit\n")
-            tel.write(b"exit\n")
-
-            #Se cierra la segunda
-            tel.write(b"exit\n")
-            tel.write(b"exit\n")
-            print(tel.read_all().decode('ascii'))
-
-            print('Archivo Startup creado :D')
-            input('Pulse una tecla para continuar... ')
-            menu_s()
-        else:
-            print('IP no reconocida, teclee una que pertenezca a la topologia')
-            input('Pulse una tecla para continuar... ')
-            menu_s()
+        print('Archivo Startup creado :D')
+        input('Pulse una tecla para continuar... ')
+        menu_s()
 
     elif opcion == 2:
         print('------------------------------------------')
